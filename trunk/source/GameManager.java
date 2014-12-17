@@ -9,6 +9,11 @@ public class GameManager implements ActionListener{
 	//properties
 	private int maxTime; 
     private Hero hero;
+    private Soldier soldier1;
+    private Soldier soldier2;
+    private Soldier soldier3;
+    private Soldier soldier4;
+    private Soldier soldier5;
     private InputManager iManager;
     private GraphicEngine gEngine;
     private EntityManager entityManager;
@@ -17,6 +22,7 @@ public class GameManager implements ActionListener{
     private BonusManager bManager;
     private CollisionDetector collisionDetector;
     private MainMenu mMenu;
+    private GameOver gOver;
     private Timer timer;
     private long startTime;
     private int remainigTime;
@@ -26,26 +32,37 @@ public class GameManager implements ActionListener{
     public GameManager()
     {
     	mMenu = new MainMenu();
+    	gOver = new GameOver();
     	startTime = -1;
     	remainigTime = -1;
     	maxTime = 180;
     	setRemainigTimeBool = false;
     	edgeManager = new EdgeManager();
     	hero = Hero.getHero();
+    	soldier1 = new Soldier();
+    	soldier2 = new Soldier();
+    	soldier3 = new Soldier();
+    	soldier4 = new Soldier();
+    	soldier5 = new Soldier();
     	cAreaDetector = new ConqueredAreaDetector();
     	collisionDetector = new CollisionDetector(entityManager);
     	iManager = new InputManager();
     	entityManager = new EntityManager();
     	bManager = new BonusManager(this);
-    	gEngine = new GraphicEngine(this, iManager, entityManager, mMenu,cAreaDetector);
+    	gEngine = new GraphicEngine(this, iManager, entityManager, mMenu,cAreaDetector,gOver);
     	entityManager.addObject(hero);
-        timer = new Timer(5, this);
+    	entityManager.addObject(soldier1);
+    	entityManager.addObject(soldier2);
+    	entityManager.addObject(soldier3);
+    	entityManager.addObject(soldier4);
+    	entityManager.addObject(soldier5);
+        timer = new Timer(10, this);
         timer.start();
     }
     
 	public void actionPerformed(ActionEvent arg0) 
 	{	
-		if(startTime == -1)
+		if(startTime == -1 && GraphicEngine.getState() == GraphicEngine.State.PlayGame)
 		{
 			setStartTime();
 		}
@@ -71,7 +88,16 @@ public class GameManager implements ActionListener{
 			iManager.setVelY(0);
 		}
 		if(GraphicEngine.getState() == GraphicEngine.State.PlayGame)
+		{
 			hero.move(iManager.getVelX(), iManager.getVelY(), edgeManager);
+			soldier1.move(edgeManager);
+			soldier2.move(edgeManager);
+			soldier3.move(edgeManager);
+			soldier4.move(edgeManager);
+			soldier5.move(edgeManager);
+			
+		}
+
 
 		Point heroPos = new Point(hero.getPosX() + (hero.getHeight()/2),hero.getPosY() + (hero.getHeight()/2));
 		cAreaDetector.process(edgeManager.isOnEdge(heroPos), heroPos, edgeManager, entityManager, gEngine);
@@ -103,12 +129,17 @@ public class GameManager implements ActionListener{
 		return s;
 	}
 
-	public void setSetRemainigTimeBool(boolean setRemainigTimeBool) {
+	public void setSetRemainigTimeBool(boolean setRemainigTimeBool) 
+	{
 		this.setRemainigTimeBool = setRemainigTimeBool;
 	}
 
-	public GraphicEngine getgEngine() {
+	public GraphicEngine getgEngine() 
+	{
 		return gEngine;
 	}
-
+	public Hero getHero() 
+	{
+		return hero;
+	}
 }

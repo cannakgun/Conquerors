@@ -15,15 +15,17 @@ public class GraphicEngine extends JPanel{
     private BufferedImage backImage;
     private BufferedImage line;
     private EntityManager eManager;
+    private InputManager iManager;
     private ConqueredAreaDetector cAreaDetector;
-    public static enum State {PlayGame, MainMenu, ViewHelp, selectLevel, viewHighScore, Settings, ViewCredits};
+    public static enum State {PlayGame, MainMenu, ViewHelp, selectLevel, viewHighScore, Settings, ViewCredits, GameOver};
     private static State state;
     private MainMenu mMenu;
+    private GameOver gOver;
     private ArrayList<Polygon> polygonList;
     private GameManager gManager;
    
 	//methods
-    public GraphicEngine(GameManager gManager, InputManager iManager, EntityManager eManager, MainMenu mMenu, ConqueredAreaDetector cAreaDetector)
+    public GraphicEngine(GameManager gManager, InputManager iManager, EntityManager eManager, MainMenu mMenu, ConqueredAreaDetector cAreaDetector, GameOver gOver)
     {
     	
 	    
@@ -47,7 +49,9 @@ public class GraphicEngine extends JPanel{
 		this.gManager = gManager;
 		this.cAreaDetector = cAreaDetector;
 		this.eManager = eManager;
+		this.iManager = iManager;
 		this.mMenu = mMenu;
+		this.gOver = gOver;
     	setPreferredSize(new Dimension(1000,1000));
 		addKeyListener(iManager);
 		addMouseListener(iManager);
@@ -91,6 +95,10 @@ public class GraphicEngine extends JPanel{
 	    	g.setColor(Color.BLACK);
 	    	//g.drawString(gManager.getRemaingTimeString(), 900, 30);
 	    	Frame.getFrame().updateTime(gManager.getRemaingTimeString());
+	    	if(gManager.getRemainigTime() == 0)
+	    	{
+	    		state = State.GameOver;
+	    	}
  		}
  		
  		else if(state == State.MainMenu)
@@ -99,6 +107,10 @@ public class GraphicEngine extends JPanel{
  			Frame.getFrame().removeMenu();
  			mMenu.paint(g2d);
 		}	
+ 		else if(state == State.GameOver)
+ 		{
+ 			gOver.paint(g2d);
+ 		}
     }
     
     public void addArea(ArrayList<Point> path)

@@ -74,6 +74,11 @@ public class InputManager implements KeyListener, MouseListener{
 		{
 			GraphicEngine.setState(GraphicEngine.State.PlayGame);
 		}
+		else if(e.getX() > 350 && e.getX() < 650 && e.getY() > 390 && e.getY() < 490)
+		{
+			if(GraphicEngine.getState() == GraphicEngine.State.MainMenu)
+				Frame.getFrame().dispose();
+		}
 		
 	}
 
