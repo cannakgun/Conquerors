@@ -1,5 +1,4 @@
 import java.awt.event.ActionEvent;
-
 import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
@@ -66,27 +65,59 @@ public class GameManager implements ActionListener{
 		{
 			setStartTime();
 		}
+		
+		for(int i = 0; i < entityManager.size(); i++)
+		{
+			if(i == 0)
+			{
+				if(hero.getPosX() < 0-hero.getWidht()/2)
+				{
+					 hero.setPosX(0-hero.getWidht()/2);
+					 iManager.setVelX(0);
+				}
+				if(hero.getPosY() < 0-hero.getWidht()/2)
+				{
+					 hero.setPosY(0-hero.getWidht()/2);
+					 iManager.setVelY(0);
+				}
+				if(hero.getPosX() > 999-(hero.getWidht()/2)) 
+				{
+					hero.setPosX(999-(hero.getWidht()/2));
+					iManager.setVelX(0);
+				}
+				if(hero.getPosY() > 999-(hero.getWidht()/2)) 
+				{
+					hero.setPosY(999-(hero.getWidht()/2));
+					iManager.setVelY(0);
+				}
+			}
+			else
+			{
+				//System.out.println("else: " +i + " "+entityManager.get(i).getPosX() + " " + entityManager.get(i).getPosY() );
+				if(entityManager.get(i).getPosX() < 0)
+				{
+					entityManager.get(i).setPosX(0); 
+					
+				}
+				if(entityManager.get(i).getPosY() < 0)
+				{
+					entityManager.get(i).setPosY(0);
+					
+				}
+				if(entityManager.get(i).getPosX() > 999-(entityManager.getWidth(i)/2)) 
+				{
+					entityManager.get(i).setPosX(999-(entityManager.getWidth(i)));
+					
+				}
+				if(entityManager.get(i).getPosY() > 999-(entityManager.getWidth(i)/2)) 
+				{
+					entityManager.get(i).setPosY(999-(entityManager.getWidth(i)));
+					
+				}
+			}
 
-		if(hero.getPosX() < 0-hero.getWidht()/2)
-		{
-			 hero.setPosX(0-hero.getWidht()/2);
-			 iManager.setVelX(0);
 		}
-		if(hero.getPosY() < 0-hero.getWidht()/2)
-		{
-			 hero.setPosY(0-hero.getWidht()/2);
-			 iManager.setVelY(0);
-		}
-		if(hero.getPosX() > 999-(hero.getWidht()/2)) 
-		{
-			hero.setPosX(999-(hero.getWidht()/2));
-			iManager.setVelX(0);
-		}
-		if(hero.getPosY() > 999-(hero.getWidht()/2)) 
-		{
-			hero.setPosY(999-(hero.getWidht()/2));
-			iManager.setVelY(0);
-		}
+
 		if(GraphicEngine.getState() == GraphicEngine.State.PlayGame)
 		{
 			hero.move(iManager.getVelX(), iManager.getVelY(), edgeManager);
@@ -95,7 +126,13 @@ public class GameManager implements ActionListener{
 			soldier3.move(edgeManager);
 			soldier4.move(edgeManager);
 			soldier5.move(edgeManager);
-			
+//			try {
+//				Thread.sleep(50);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//			
 		}
 
 

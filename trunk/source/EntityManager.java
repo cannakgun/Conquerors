@@ -31,6 +31,10 @@ public class EntityManager {
     {
     	return currentGameObjects.get(i);
     }
+    public int getWidth(int i)
+    {
+    	return currentGameObjects.get(i).getWidht();
+    }
     
     public int size()
     {

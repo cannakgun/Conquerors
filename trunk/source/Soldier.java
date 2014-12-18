@@ -24,6 +24,8 @@ public class Soldier extends GameObject{
 	    	  System.out.println("hata! sprite yok");
 			}
 		rand = new Random();
+		setWidht(100);
+		setHeight(100);
 		setPosX(rand.nextInt(750));
 		setPosY(rand.nextInt(750));
 		walk = false;
@@ -32,7 +34,6 @@ public class Soldier extends GameObject{
 	public void move(EdgeManager eManager)
 	{
 		//set soldier positions according to the random generator value.
-		
 		if(!walk)
 		{
 			direction = rand.nextInt(4)+1;
@@ -40,53 +41,55 @@ public class Soldier extends GameObject{
 		}
 		else if(walk)
 		{
+			//System.out.println(direction);
 			if(direction == 1)
 			{
 				int i = getPosY();
-				int y = getPosY() + 20;
-				while(i < y)
+				int y = getPosY() - 50;
+				while(i > y)
 				{
-					
-					i = i+1;
+					setPosY(getPosY() + (-1));
+					y = y+1;
 				}
-				setPosY(getPosY() + (-1));
+				
 			}
 			else if(direction == 2)
 			{
 				int i = getPosX();
-				int y = getPosX() + 20;
+				int y = getPosX() + 50;
 				while(i < y)
 				{
-					
+					setPosX(getPosX() + (1));
 					i = i+1;
 				}
-				setPosX(getPosX() + (1));
+				
 			}
 			else if(direction == 3)
 			{
 				int i = getPosY();
-				int y = getPosY() + 20;
+				int y = getPosY() + 50;
 				while(i < y)
 				{
-					
+					setPosY(getPosY() + (1));
 					i = i+1;
 				}
-				setPosY(getPosY() + (1));
+				
 			}
 			else if(direction == 4)
 			{
 
 				int i = getPosX();
-				int y = getPosX() + 20;
-				while(i < y)
+				int y = getPosX() - 50;
+				while(i > y)
 				{
-					
-					i = i+1;
+					setPosX(getPosX() + (-1));
+					y = y+1;
 				}
-				setPosX(getPosX() + (-1));
+				
 			}
 
 			walk = false;
+			
 		}  	
 	}
 
