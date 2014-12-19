@@ -10,7 +10,7 @@ public class Soldier extends GameObject{
 	//properties
 	private int speed;
 	private Random rand;
-	private boolean walk;
+	private int walk;
 	private int direction;
 	
 	//methods
@@ -24,71 +24,59 @@ public class Soldier extends GameObject{
 	    	  System.out.println("hata! sprite yok");
 			}
 		rand = new Random();
-		setWidht(100);
-		setHeight(100);
+		setWidht(50);
+		setHeight(50);
 		setPosX(rand.nextInt(750));
 		setPosY(rand.nextInt(750));
-		walk = false;
+		speed = 5;
+		walk = 0;
 		direction = -1;
 	}
 	public void move(EdgeManager eManager)
 	{
 		//set soldier positions according to the random generator value.
-		if(!walk)
+		if(walk <= 0)
 		{
 			direction = rand.nextInt(4)+1;
-			walk = true;
+			walk = 20;
 		}
-		else if(walk)
+		else
 		{
 			//System.out.println(direction);
-			if(direction == 1)
-			{
-				int i = getPosY();
-				int y = getPosY() - 50;
-				while(i > y)
-				{
-					setPosY(getPosY() + (-1));
-					y = y+1;
+			if(direction == 1){
+				setPosY(getPosY() - speed);
+				if (getPosY() < 0){
+					setPosY(0);
+					walk = 0;
+					return;
 				}
-				
 			}
-			else if(direction == 2)
-			{
-				int i = getPosX();
-				int y = getPosX() + 50;
-				while(i < y)
-				{
-					setPosX(getPosX() + (1));
-					i = i+1;
+			else if(direction == 2){
+				setPosX(getPosX() + speed);
+				if (getPosX() > 949){
+					setPosX(949);
+					walk = 0;
+					return;
 				}
-				
 			}
-			else if(direction == 3)
-			{
-				int i = getPosY();
-				int y = getPosY() + 50;
-				while(i < y)
-				{
-					setPosY(getPosY() + (1));
-					i = i+1;
+			else if(direction == 3){
+				setPosY(getPosY() + speed);
+				if (getPosY() > 949){
+					setPosY(949);
+					walk = 0;
+					return;
 				}
-				
 			}
-			else if(direction == 4)
-			{
-
-				int i = getPosX();
-				int y = getPosX() - 50;
-				while(i > y)
-				{
-					setPosX(getPosX() + (-1));
-					y = y+1;
+			else if(direction == 4){
+				setPosX(getPosX() - speed);
+				if (getPosX() < 0){
+					setPosX(0);
+					walk = 0;
+					return;
 				}
-				
 			}
 
-			walk = false;
+			walk--;
 			
 		}  	
 	}

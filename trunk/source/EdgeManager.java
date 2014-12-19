@@ -24,8 +24,88 @@ public class EdgeManager {
 	
 	public boolean isPositionValid(Point p)
 	{
+		Point temp = new Point(p);
+		//North Checking
+		temp.setY(temp.getY() - 1);
+		boolean loop = true;
+		while(loop)
+		{
+			if (temp.getY() < 0)
+				break;
+			ArrayList<Edge> sEdges = getStandingEdges(temp);
+			for (int i = 0; i < sEdges.size(); i++) {
+				int dir = sEdges.get(i).getDirection();
+				if (dir == Edge.DIR_SOUTH)
+					return false;
+				else if (dir == Edge.DIR_NORTH){
+					loop = false;
+					break;
+				}
+			}
+			temp.setY(temp.getY() - 1);
+		}
+		//South Checking
+		temp = new Point(p);
+		temp.setY(temp.getY() + 1);
+		loop = true;
+		while(loop)
+		{
+			if (temp.getY() > 999)
+				break;
+			ArrayList<Edge> sEdges = getStandingEdges(temp);
+			for (int i = 0; i < sEdges.size(); i++) {
+				int dir = sEdges.get(i).getDirection();
+				if (dir == Edge.DIR_NORTH)
+					return false;
+				else if (dir == Edge.DIR_SOUTH){
+					loop = false;
+					break;
+				}
+			}
+			temp.setY(temp.getY() + 1);
+		}
+		//East Checking
+		temp = new Point(p);
+		temp.setX(temp.getX() + 1);
+		loop = true;
+		while(loop)
+		{
+			if (temp.getX() > 999)
+				break;
+			ArrayList<Edge> sEdges = getStandingEdges(temp);
+			for (int i = 0; i < sEdges.size(); i++) {
+				int dir = sEdges.get(i).getDirection();
+				if (dir == Edge.DIR_WEST)
+					return false;
+				else if (dir == Edge.DIR_EAST){
+					loop = false;
+					break;
+				}
+			}
+			temp.setX(temp.getX() + 1);
+		}
+		//West Checking
+		temp = new Point(p);
+		temp.setX(temp.getX() - 1);
+		loop = true;
+		while(loop)
+		{
+			if (temp.getX() < 0)
+				break;
+			ArrayList<Edge> sEdges = getStandingEdges(temp);
+			for (int i = 0; i < sEdges.size(); i++) {
+				int dir = sEdges.get(i).getDirection();
+				if (dir == Edge.DIR_EAST)
+					return false;
+				else if (dir == Edge.DIR_WEST){
+					loop = false;
+					break;
+				}
+			}
+			temp.setX(temp.getX() - 1);
+		}	
 		
-		return false;
+		return true;
 		//kaðýttaki algoritma
 	}
 	public boolean isOnEdge(Point p)

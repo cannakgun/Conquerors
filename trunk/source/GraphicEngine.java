@@ -18,6 +18,7 @@ public class GraphicEngine extends JPanel{
     private InputManager iManager;
     private ConqueredAreaDetector cAreaDetector;
     public static enum State {PlayGame, MainMenu, ViewHelp, selectLevel, viewHighScore, Settings, ViewCredits, GameOver};
+    private long deathTime;
     private static State state;
     private MainMenu mMenu;
     private GameOver gOver;
@@ -27,7 +28,7 @@ public class GraphicEngine extends JPanel{
 	//methods
     public GraphicEngine(GameManager gManager, InputManager iManager, EntityManager eManager, MainMenu mMenu, ConqueredAreaDetector cAreaDetector, GameOver gOver)
     {
-    	
+    	deathTime = -1;    	
 	    
     	try {
 			backImage = ImageIO.read(new File("back.jpg"));
@@ -71,7 +72,7 @@ public class GraphicEngine extends JPanel{
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
- 		if(state == State.PlayGame)
+ 		if(state == State.PlayGame || (state == State.GameOver && System.currentTimeMillis() - deathTime < 2000))
  		{
  			Frame.getFrame().addMenu();
  			g.drawImage(backImage, 0, 0, getWidth(), getHeight(), this);
@@ -89,6 +90,7 @@ public class GraphicEngine extends JPanel{
 	    	for(int i = 0; i < eManager.size(); i++)
 			{
 				g.drawImage(eManager.get(i).getSprite(), eManager.get(i).getPosX(), eManager.get(i).getPosY(), null);
+				//g.drawRect(eManager.get(i).getPosX(), eManager.get(i).getPosY(), eManager.get(i).getWidht(), eManager.get(i).getHeight());
 			} 
     	
 	    	g.setFont(font);
@@ -97,7 +99,7 @@ public class GraphicEngine extends JPanel{
 	    	Frame.getFrame().updateTime(gManager.getRemaingTimeString());
 	    	if(gManager.getRemainigTime() == 0)
 	    	{
-	    		state = State.GameOver;
+	    		onDeath();
 	    	}
  		}
  		
@@ -136,6 +138,12 @@ public class GraphicEngine extends JPanel{
 
 	public static void setState(State aState) {
 		state = aState;
+	}
+	
+	public void onDeath(){
+		state = State.GameOver;
+		deathTime = System.currentTimeMillis();
+
 	}
 
 }

@@ -28,53 +28,12 @@ public class Hero extends GameObject{
 		setPosX(500 - (getWidht()/2));
 		setPosY(999 - (getWidht()/2));
 	}
-    public void move(int velX, int velY, EdgeManager eManager) 
-    {
-    	//gitmemesi gereken yerlere gitmediðini kontrol et
+    public void move(int velX, int velY, EdgeManager eManager) {
     	
-    	int curDir = -1;
-    	if (velX == 0)
-    	{
-    		if (velY > 0)
-    		{
-    			curDir = Edge.DIR_SOUTH;
-    		}
-    		else 
-    		{
-    			curDir = Edge.DIR_NORTH;
-    		}
-    	}
-    	else if (velX > 0)
-    	{
-			curDir = Edge.DIR_EAST;
-    	}
-    	else
-    	{
-			curDir = Edge.DIR_WEST;
-    	}
-    	boolean canMove = true;
-    	ArrayList<Edge> standingEdges = eManager.getStandingEdges(new Point(getPosX(),getPosY()));
+    	Point newPoint = new Point(getPosX() + (speed * velX) + getWidht()/2,getPosY() + (speed * velY) +  getHeight()/2);
+    	boolean canMove = eManager.isPositionValid(newPoint);
     	
-    	//DEÐÝÞECEK
-    	if(standingEdges.size() == 1)
-    	{
-    		canMove = curDir != standingEdges.get(0).getDirection();
-    	}
-    	else if(standingEdges.size() == 2)
-    	{
-    		
-    	}
-    	else
-    	{
-	    	for (int i = 0; i < standingEdges.size(); i++)
-	    	{
-				if (standingEdges.get(i).getDirection() == curDir)
-				{
-					canMove = false;
-					break;
-				}
-			}
-    	}
+    	
     	if (canMove)
     	{
 	    	setPosX(getPosX() + (speed * velX));
