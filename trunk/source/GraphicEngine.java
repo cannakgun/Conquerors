@@ -95,8 +95,9 @@ public class GraphicEngine extends JPanel{
     	
 	    	g.setFont(font);
 	    	g.setColor(Color.BLACK);
-	    	//g.drawString(gManager.getRemaingTimeString(), 900, 30);
+
 	    	Frame.getFrame().updateTime(gManager.getRemaingTimeString());
+	    	
 	    	if(gManager.getRemainigTime() == 0)
 	    	{
 	    		onDeath();
@@ -105,7 +106,6 @@ public class GraphicEngine extends JPanel{
  		
  		else if(state == State.MainMenu)
  		{
- 			//g.drawImage(backImage, 0, 0, getWidth(), getHeight(), this);
  			Frame.getFrame().removeMenu();
  			mMenu.paint(g2d);
 		}	
@@ -115,7 +115,8 @@ public class GraphicEngine extends JPanel{
  		}
     }
     
-    public void addArea(ArrayList<Point> path)
+
+	public void addArea(ArrayList<Point> path)
     {
     	int [] xpoints = new int[path.size()];
     	int [] ypoints = new int[path.size()];
@@ -144,6 +145,14 @@ public class GraphicEngine extends JPanel{
 		state = State.GameOver;
 		deathTime = System.currentTimeMillis();
 
+	}
+    public ArrayList<Polygon> getPolygonList() {
+		return polygonList;
+	}
+
+
+	public void setPolygonList(ArrayList<Polygon> polygonList) {
+		this.polygonList = polygonList;
 	}
 
 }

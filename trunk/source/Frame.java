@@ -73,7 +73,6 @@ public class Frame extends JFrame implements ActionListener{
 	public void removeMenu()
 	{
 		if (menuState){
-			System.out.println("aaa");
 			menuState = false;
 			menubar.setVisible(false);
 		}
@@ -91,19 +90,15 @@ public class Frame extends JFrame implements ActionListener{
 		{
 			if(GraphicEngine.getState() == GraphicEngine.State.PlayGame)
 			{
-				thisFrame.dispose();
-				thisFrame = new Frame();
-				gManager.getHero().setPosX(500 - (gManager.getHero().getWidht()/2));
-				gManager.getHero().setPosY(999 - (gManager.getHero().getWidht()/2));
-				gManager.getHero().setLife(1);
+
+				gManager.reset();
+				
+
 			}
 			else if(GraphicEngine.getState() == GraphicEngine.State.GameOver)
 			{
-				thisFrame.dispose();
-				thisFrame = new Frame();
-				gManager.getHero().setPosX(500 - (gManager.getHero().getWidht()/2));
-				gManager.getHero().setPosY(999 - (gManager.getHero().getWidht()/2));
-				gManager.getHero().setLife(1);
+
+				gManager.reset();
 			}
 			GraphicEngine.setState(GraphicEngine.State.MainMenu);
 		}

@@ -8,8 +8,13 @@ public class InputManager implements KeyListener, MouseListener{
 	//properties
 	private int velX = 0;
 	private int velY = 0;
+	private GameManager gManager;
 	
-	//methods	
+	//methods
+	public InputManager(GameManager gManager)
+	{
+		this.gManager = gManager;
+	}
 	public int getVelX() {
 		return velX;
 	}
@@ -72,6 +77,7 @@ public class InputManager implements KeyListener, MouseListener{
 		// TODO Auto-generated method stub
 		if(e.getX() > 350 && e.getX() < 650 && e.getY() > 150 && e.getY() < 250)
 		{
+			gManager.setLevel(1);
 			GraphicEngine.setState(GraphicEngine.State.PlayGame);
 		}
 		else if(e.getX() > 350 && e.getX() < 650 && e.getY() > 390 && e.getY() < 490)

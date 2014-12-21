@@ -7,13 +7,12 @@ import javax.swing.Timer;
 public class GameManager implements ActionListener{
 
         //properties
-    private int maxTime; 
+    private int maxTime;
+    private int level;
     private Hero hero;
     private Soldier soldier1;
     private Soldier soldier2;
     private Soldier soldier3;
-    private Soldier soldier4;
-    private Soldier soldier5;
     private InputManager iManager;
     private GraphicEngine gEngine;
     private EntityManager entityManager;
@@ -35,30 +34,20 @@ public class GameManager implements ActionListener{
     {
         mMenu = new MainMenu();
         gOver = new GameOver();
+        level = 1;
         startTime = -1;
         remainigTime = -1;
         lastMove = -1;
-        maxTime = 180;
         setRemainigTimeBool = false;
         setRemainingTimeMinus = false;
         edgeManager = new EdgeManager();
         hero = Hero.getHero();
-        soldier1 = new Soldier();
-        soldier2 = new Soldier();
-        soldier3 = new Soldier();
-        soldier4 = new Soldier();
-        soldier5 = new Soldier();
         cAreaDetector = new ConqueredAreaDetector();
-        iManager = new InputManager();
+        iManager = new InputManager(this);
         entityManager = new EntityManager();
         bManager = new BonusManager(this);
         gEngine = new GraphicEngine(this, iManager, entityManager, mMenu,cAreaDetector,gOver);
         entityManager.addObject(hero);
-        entityManager.addObject(soldier1);
-        entityManager.addObject(soldier2);
-        entityManager.addObject(soldier3);
-        entityManager.addObject(soldier4);
-        entityManager.addObject(soldier5);
         collisionDetector = new CollisionDetector(entityManager);
         timer = new Timer(10, this);
         timer.start();
@@ -69,6 +58,8 @@ public class GameManager implements ActionListener{
                 if(startTime == -1 && GraphicEngine.getState() == GraphicEngine.State.PlayGame)
                 {
                         setStartTime();
+                        initializeLevel(1);
+                        
                 }
                 
                 for(int i = 0; i < entityManager.size(); i++)
@@ -101,12 +92,12 @@ public class GameManager implements ActionListener{
                 if(GraphicEngine.getState() == GraphicEngine.State.PlayGame)
                 {
                     hero.move(iManager.getVelX(), iManager.getVelY(), edgeManager);
-                	if (System.currentTimeMillis() - lastMove > 10) {
+                	if (System.currentTimeMillis() - lastMove > 10)
+                	{
                         soldier1.move(edgeManager);
                         soldier2.move(edgeManager);
-                        soldier3.move(edgeManager);
-                        soldier4.move(edgeManager);
-                        soldier5.move(edgeManager);
+                        if(level > 3 )
+                        	soldier3.move(edgeManager);
                         lastMove = System.currentTimeMillis();
                 	}
                 }
@@ -120,10 +111,7 @@ public class GameManager implements ActionListener{
                 {
                 	gEngine.onDeath();
                 }
-                
-                
-                
-                //System.out.printf(getRemaingTimeString()); => DONE
+                               
                 
                 //check hero life to continue PlayGame state or go to GameOver state!!!! 
         }
@@ -172,4 +160,95 @@ public class GameManager implements ActionListener{
         {
                 return hero;
         }
+        public void reset()
+        {
+
+        	for(int i = entityManager.size()-1; i > 0; i--)
+        	{
+        		entityManager.removeObject(entityManager.get(i));
+        	}
+        	for(int i = gEngine.getPolygonList().size()-1; i > -1; i--)
+        	{
+        		gEngine.getPolygonList().remove(gEngine.getPolygonList().get(i));
+        	}
+        	for(int i = cAreaDetector.getPath().size()-1; i > -1; i--)
+        	{
+        		cAreaDetector.getPath().remove(cAreaDetector.getPath().get(i));
+        	}
+        	for(int i = edgeManager.getEdgeList().size()-1; i > 3; i--)
+        	{
+        		edgeManager.getEdgeList().remove(edgeManager.getEdgeList().get(i));
+        	}
+
+        	startTime = -1;
+			getHero().setPosX(500 - (getHero().getWidht()/2));
+			getHero().setPosY(999 - (getHero().getWidht()/2));
+			getHero().setLife(1);
+        }
+        public void initializeLevel(int level)
+        {
+        	if(level == 1)
+        	{
+        		maxTime = 210;
+                soldier1 = new Soldier();
+                soldier2 = new Soldier();
+                entityManager.addObject(soldier1);
+                entityManager.addObject(soldier2);
+   
+        	}
+        	if(level == 2)
+        	{
+        		maxTime = 180;
+        		soldier1 = new Soldier();
+                soldier2 = new Soldier();
+                entityManager.addObject(soldier1);
+                entityManager.addObject(soldier2);
+   
+        	}
+        	if(level == 3)
+        	{
+        		maxTime = 150;
+                soldier1 = new Soldier();
+                soldier2 = new Soldier();
+                entityManager.addObject(soldier1);
+                entityManager.addObject(soldier2);
+   
+        	}
+        	if(level == 4)
+        	{
+        		maxTime = 120;
+                soldier1 = new Soldier();
+                soldier2 = new Soldier();
+                soldier3 = new Soldier();
+                entityManager.addObject(soldier1);
+                entityManager.addObject(soldier2);
+                entityManager.addObject(soldier3);
+   
+        	}
+        	if(level == 5)
+        	{
+        		maxTime = 90;
+                soldier1 = new Soldier();
+                soldier2 = new Soldier();
+                soldier3 = new Soldier();
+                entityManager.addObject(soldier1);
+                entityManager.addObject(soldier2);
+                entityManager.addObject(soldier3);
+   
+        	}
+        }
+
+		public int getMaxTime()
+		{
+			return maxTime;	
+		}
+
+		public int getLevel() {
+			return level;
+		}
+
+		public void setLevel(int level) {
+			this.level = level;
+		}
+		
 }

@@ -7,6 +7,7 @@ public class ConqueredAreaDetector{
 	private boolean onEdge;
 	private ArrayList<Point> path;
 	
+
 	//methods
 	public ConqueredAreaDetector()
 	{
@@ -85,6 +86,13 @@ public class ConqueredAreaDetector{
 			}
 		}
 		onEdge = nextOnEdge;
+	}
+	public ArrayList<Point> getPath() {
+		return path;
+	}
+
+	public void setPath(ArrayList<Point> path) {
+		this.path = path;
 	}
 	
 }

@@ -13,10 +13,9 @@ public class CollisionDetector {
 	{
 		//checks the hero position and detects whether any other game object collides with hero
 		// according to their current positions and height/width values.
-		
 		//if there is a collision then decrease the hero life.
 		boolean check = false;
-		Rectangle r1 = new Rectangle((eManager.get(0)).getPosX()+20,(eManager.get(0)).getPosY()+15,
+		Rectangle r1 = new Rectangle((eManager.get(0)).getPosX()+15,(eManager.get(0)).getPosY()+15,
 				60, 60);
 
 		for(int i = 1; i < eManager.size(); i++)

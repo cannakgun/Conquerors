@@ -128,5 +128,14 @@ public class EdgeManager {
 	{
 		edgeList.add(edge);
 	}
+
+	public ArrayList<Edge> getEdgeList() {
+		return edgeList;
+	}
+
+	public void setEdgeList(ArrayList<Edge> edgeList) {
+		this.edgeList = edgeList;
+	}
+	
 	
 }
