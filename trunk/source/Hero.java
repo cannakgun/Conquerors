@@ -23,6 +23,7 @@ public class Hero extends GameObject{
 	    	  System.out.println("hata sprite yok");
 			}
 		speed = 2;
+		life = 2;
 		setWidht(100);
 		setHeight(100);
 		setPosX(500 - (getWidht()/2));
@@ -69,7 +70,6 @@ public class Hero extends GameObject{
 	}
 	public void decreaseLife()
 	{
-		if(life > 0)
 			life = life - 1;
 	}
 	public void setHeroType(int heroType)

@@ -26,6 +26,10 @@ public class EntityManager {
     {
     	currentGameObjects.remove(gObject);
     }
+    public void removeObjectByIndex(int i)
+    {
+        currentGameObjects.remove(i);
+    }
     
     public GameObject get(int i)
     {

@@ -75,15 +75,41 @@ public class InputManager implements KeyListener, MouseListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getX() > 350 && e.getX() < 650 && e.getY() > 150 && e.getY() < 250)
+		if(e.getX() > 325 && e.getX() < 670 && e.getY() > 100 && e.getY() < 160)
 		{
-			gManager.setLevel(1);
+			gManager.setLevel(gManager.getLevel());
 			GraphicEngine.setState(GraphicEngine.State.PlayGame);
 		}
-		else if(e.getX() > 350 && e.getX() < 650 && e.getY() > 390 && e.getY() < 490)
+		else if(e.getX() > 325 && e.getX() < 670 && e.getY() > 220 && e.getY() < 280)
+		{
+			GraphicEngine.setState(GraphicEngine.State.selectLevel);
+
+		}
+		else if(e.getX() > 325 && e.getX() < 670 && e.getY() > 340 && e.getY() < 400)
+		{
+			GraphicEngine.setState(GraphicEngine.State.ViewHelp);
+
+		}
+		else if(e.getX() > 325 && e.getX() < 670 && e.getY() > 460 && e.getY() < 520)
+		{
+			GraphicEngine.setState(GraphicEngine.State.Settings);
+
+		}
+		else if(e.getX() > 325 && e.getX() < 670 && e.getY() > 580 && e.getY() < 640)
+		{
+			GraphicEngine.setState(GraphicEngine.State.viewHighScore);
+
+		}
+		else if(e.getX() > 325 && e.getX() < 670 && e.getY() > 700 && e.getY() < 760)
+		{
+			GraphicEngine.setState(GraphicEngine.State.ViewCredits);
+
+		}
+		else if(e.getX() > 325 && e.getX() < 670 && e.getY() > 820 && e.getY() < 880)
 		{
 			if(GraphicEngine.getState() == GraphicEngine.State.MainMenu)
 				Frame.getFrame().dispose();
+
 		}
 		
 	}

@@ -13,6 +13,7 @@ public class GraphicEngine extends JPanel{
 	//properties
 	private Font font;;
     private BufferedImage backImage;
+    private BufferedImage mainBack;
     private BufferedImage line;
     private EntityManager eManager;
     private InputManager iManager;
@@ -35,7 +36,7 @@ public class GraphicEngine extends JPanel{
 	    	   
 	        } catch (IOException e) 
 			{
-	    	  System.out.println("sprite is missing");
+	    	  System.out.println("back is missing");
 			}
 		try {
 			line = ImageIO.read(new File("line.png"));
@@ -43,6 +44,13 @@ public class GraphicEngine extends JPanel{
 	        } catch (IOException e) 
 			{
 	    	  System.out.println("line is missing");
+			}
+		try {
+			mainBack = ImageIO.read(new File("back2.jpg"));
+	    	   
+	        } catch (IOException e) 
+			{
+	    	  System.out.println("back2 is missing");
 			}
 		
 
@@ -96,7 +104,11 @@ public class GraphicEngine extends JPanel{
 	    	g.setFont(font);
 	    	g.setColor(Color.BLACK);
 
-	    	Frame.getFrame().updateTime(gManager.getRemaingTimeString());
+	    	if(gManager.getRemainigTime() >= 0)
+	    	{
+	    		Frame.getFrame().updateTime(gManager.getRemaingTimeString());
+	    	}
+	    	
 	    	
 	    	if(gManager.getRemainigTime() == 0)
 	    	{
@@ -107,11 +119,28 @@ public class GraphicEngine extends JPanel{
  		else if(state == State.MainMenu)
  		{
  			Frame.getFrame().removeMenu();
+ 			g.drawImage(mainBack, 0, 0, getWidth(), getHeight(), this);
  			mMenu.paint(g2d);
 		}	
  		else if(state == State.GameOver)
  		{
- 			gOver.paint(g2d);
+ 			if(((Hero)(eManager.get(0))).getLife() < 1)
+ 			{
+ 				gOver.paint(g2d);
+ 			}
+ 				
+ 			else
+ 			{
+ 				gManager.getHero().setPosX(500 - (gManager.getHero().getWidht()/2));
+ 				gManager.getHero().setPosY(999 - (gManager.getHero().getWidht()/2));
+ 	        	for(int i = cAreaDetector.getPath().size()-1; i > -1; i--)
+ 	        	{
+ 	        		cAreaDetector.getPath().remove(cAreaDetector.getPath().get(i));
+ 	        	}
+ 				state = State.PlayGame;
+
+ 			}
+ 								
  		}
     }
     

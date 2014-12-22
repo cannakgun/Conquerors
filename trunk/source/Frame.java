@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Box;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -74,7 +76,8 @@ public class Frame extends JFrame implements ActionListener{
 	{
 		if (menuState){
 			menuState = false;
-			menubar.setVisible(false);
+			remove(menubar);
+			pack();
 		}
 	}
 	
@@ -88,18 +91,11 @@ public class Frame extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == backButton)
 		{
-			if(GraphicEngine.getState() == GraphicEngine.State.PlayGame)
+			if(GraphicEngine.getState() == GraphicEngine.State.PlayGame||GraphicEngine.getState() == GraphicEngine.State.GameOver)
 			{
-
-				gManager.reset();
-				
-
+				gManager.reset();				
 			}
-			else if(GraphicEngine.getState() == GraphicEngine.State.GameOver)
-			{
 
-				gManager.reset();
-			}
 			GraphicEngine.setState(GraphicEngine.State.MainMenu);
 		}
 		

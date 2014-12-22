@@ -47,7 +47,6 @@ public class ConqueredAreaDetector{
 		{
 			if(nextOnEdge)
 			{
-				// !(leave == p)
 				//!(leave.x == p.x && leave.y == p.y)
 				//add Point p to ArrayList path 
 				//EdgeManager ýn createEdge metodunu çaðýr(path) 
@@ -75,7 +74,6 @@ public class ConqueredAreaDetector{
 							Hero h = (Hero)(entityManager.get(0));
 							h.setPosX(leave.getX() - (h.getWidht()/2) );
 							h.setPosY(leave.getY() - (h.getWidht()/2));
-							h.setLife(0);
 							onEdge = true;
 							path = new  ArrayList<Point>();
 							return;

@@ -1,14 +1,13 @@
-package project;
 
 public class TimeMinus extends Bonus{
 
-	public TimeMinus()
-	{
-		
-	}
-	 public void applySpeciality()
-	 {
-		 GameManager.setRemainingTimeMinus(true);
-	 }
+    public TimeMinus()
+    {
+            
+    }
+    public void applySpeciality()
+    {
+    	GameManager.setRemainingTimeMinus(true);
+    }
 
 }

@@ -33,11 +33,13 @@ public class EdgeManager {
 			if (temp.getY() < 0)
 				break;
 			ArrayList<Edge> sEdges = getStandingEdges(temp);
-			for (int i = 0; i < sEdges.size(); i++) {
+			for (int i = 0; i < sEdges.size(); i++)
+			{
 				int dir = sEdges.get(i).getDirection();
 				if (dir == Edge.DIR_SOUTH)
 					return false;
-				else if (dir == Edge.DIR_NORTH){
+				else if (dir == Edge.DIR_NORTH)
+				{
 					loop = false;
 					break;
 				}
@@ -53,11 +55,13 @@ public class EdgeManager {
 			if (temp.getY() > 999)
 				break;
 			ArrayList<Edge> sEdges = getStandingEdges(temp);
-			for (int i = 0; i < sEdges.size(); i++) {
+			for (int i = 0; i < sEdges.size(); i++) 
+			{
 				int dir = sEdges.get(i).getDirection();
 				if (dir == Edge.DIR_NORTH)
 					return false;
-				else if (dir == Edge.DIR_SOUTH){
+				else if (dir == Edge.DIR_SOUTH)
+				{
 					loop = false;
 					break;
 				}
@@ -73,11 +77,13 @@ public class EdgeManager {
 			if (temp.getX() > 999)
 				break;
 			ArrayList<Edge> sEdges = getStandingEdges(temp);
-			for (int i = 0; i < sEdges.size(); i++) {
+			for (int i = 0; i < sEdges.size(); i++) 
+			{
 				int dir = sEdges.get(i).getDirection();
 				if (dir == Edge.DIR_WEST)
 					return false;
-				else if (dir == Edge.DIR_EAST){
+				else if (dir == Edge.DIR_EAST)
+				{
 					loop = false;
 					break;
 				}
@@ -93,11 +99,13 @@ public class EdgeManager {
 			if (temp.getX() < 0)
 				break;
 			ArrayList<Edge> sEdges = getStandingEdges(temp);
-			for (int i = 0; i < sEdges.size(); i++) {
+			for (int i = 0; i < sEdges.size(); i++) 
+			{
 				int dir = sEdges.get(i).getDirection();
 				if (dir == Edge.DIR_EAST)
 					return false;
-				else if (dir == Edge.DIR_WEST){
+				else if (dir == Edge.DIR_WEST)
+				{
 					loop = false;
 					break;
 				}

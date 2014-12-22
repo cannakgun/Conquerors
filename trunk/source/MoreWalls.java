@@ -1,9 +1,13 @@
 
-public class MoreWalls extends Bonus{
+public class MoreWalls {
 
-	public MoreWalls()
+	private GameManager gManager;
+	public MoreWalls(GameManager gManager)
 	{
-
+		this.gManager = gManager;
 	}
-
+	public void applySpeciality()
+	{
+		gManager.addWalls();
+	}
 }

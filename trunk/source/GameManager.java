@@ -9,10 +9,16 @@ public class GameManager implements ActionListener{
         //properties
     private int maxTime;
     private int level;
+    private int coefficient;
     private Hero hero;
+    private Castle castle;
     private Soldier soldier1;
     private Soldier soldier2;
     private Soldier soldier3;
+    private Wall wall1;
+    private Wall wall2;
+    private Wall wall3;
+    private Wall wall4;
     private InputManager iManager;
     private GraphicEngine gEngine;
     private EntityManager entityManager;
@@ -28,13 +34,14 @@ public class GameManager implements ActionListener{
     private int remainigTime;
     private static boolean setRemainigTimeBool;
     private static boolean setRemainingTimeMinus;
+
     
     //methods
     public GameManager()
     {
         mMenu = new MainMenu();
-        gOver = new GameOver();
-        level = 1;
+        gOver = new GameOver(this);
+        level = 5;
         startTime = -1;
         remainigTime = -1;
         lastMove = -1;
@@ -42,12 +49,14 @@ public class GameManager implements ActionListener{
         setRemainingTimeMinus = false;
         edgeManager = new EdgeManager();
         hero = Hero.getHero();
+        castle = new Castle();
         cAreaDetector = new ConqueredAreaDetector();
         iManager = new InputManager(this);
         entityManager = new EntityManager();
         bManager = new BonusManager(this);
         gEngine = new GraphicEngine(this, iManager, entityManager, mMenu,cAreaDetector,gOver);
         entityManager.addObject(hero);
+        entityManager.addObject(castle);
         collisionDetector = new CollisionDetector(entityManager);
         timer = new Timer(10, this);
         timer.start();
@@ -58,36 +67,30 @@ public class GameManager implements ActionListener{
                 if(startTime == -1 && GraphicEngine.getState() == GraphicEngine.State.PlayGame)
                 {
                         setStartTime();
-                        initializeLevel(1);
-                        
+                        initializeLevel(level);                        
                 }
                 
-                for(int i = 0; i < entityManager.size(); i++)
+                if(hero.getPosX() < 0-hero.getWidht()/2)
                 {
-                        if(i == 0)
-                        {
-                                if(hero.getPosX() < 0-hero.getWidht()/2)
-                                {
-                                         hero.setPosX(0-hero.getWidht()/2);
-                                         iManager.setVelX(0);
-                                }
-                                if(hero.getPosY() < 0-hero.getWidht()/2)
-                                {
-                                         hero.setPosY(0-hero.getWidht()/2);
-                                         iManager.setVelY(0);
-                                }
-                                if(hero.getPosX() > 999-(hero.getWidht()/2)) 
-                                {
-                                        hero.setPosX(999-(hero.getWidht()/2));
-                                        iManager.setVelX(0);
-                                }
-                                if(hero.getPosY() > 999-(hero.getWidht()/2)) 
-                                {
-                                        hero.setPosY(999-(hero.getWidht()/2));
-                                        iManager.setVelY(0);
-                                }
-                        }
+                         hero.setPosX(0-hero.getWidht()/2);
+                         iManager.setVelX(0);
                 }
+                if(hero.getPosY() < 0-hero.getWidht()/2)
+                {
+                         hero.setPosY(0-hero.getWidht()/2);
+                         iManager.setVelY(0);
+                }
+                if(hero.getPosX() > 999-(hero.getWidht()/2)) 
+                {
+                        hero.setPosX(999-(hero.getWidht()/2));
+                        iManager.setVelX(0);
+                }
+                if(hero.getPosY() > 999-(hero.getWidht()/2)) 
+                {
+                        hero.setPosY(999-(hero.getWidht()/2));
+                        iManager.setVelY(0);
+                }
+
 
                 if(GraphicEngine.getState() == GraphicEngine.State.PlayGame)
                 {
@@ -102,10 +105,9 @@ public class GameManager implements ActionListener{
                 	}
                 }
 
-
-                Point heroPos = new Point(hero.getPosX() + (hero.getHeight()/2),hero.getPosY() + (hero.getHeight()/2));
-                
+                Point heroPos = new Point(hero.getPosX() + (hero.getHeight()/2),hero.getPosY() + (hero.getHeight()/2));              
                 cAreaDetector.process(edgeManager.isOnEdge(heroPos), heroPos, edgeManager, entityManager, gEngine);
+               
                 gEngine.repaint();
                 if(GraphicEngine.getState() != GraphicEngine.State.GameOver && collisionDetector.checkCollision() && !(edgeManager.isOnEdge(heroPos)))
                 {
@@ -163,7 +165,7 @@ public class GameManager implements ActionListener{
         public void reset()
         {
 
-        	for(int i = entityManager.size()-1; i > 0; i--)
+        	for(int i = entityManager.size()-1; i > 1; i--)
         	{
         		entityManager.removeObject(entityManager.get(i));
         	}
@@ -179,7 +181,8 @@ public class GameManager implements ActionListener{
         	{
         		edgeManager.getEdgeList().remove(edgeManager.getEdgeList().get(i));
         	}
-
+        	
+        	gOver.setCalculateScore(false);
         	startTime = -1;
 			getHero().setPosX(500 - (getHero().getWidht()/2));
 			getHero().setPosY(999 - (getHero().getWidht()/2));
@@ -189,6 +192,7 @@ public class GameManager implements ActionListener{
         {
         	if(level == 1)
         	{
+        		coefficient = 1;
         		maxTime = 210;
                 soldier1 = new Soldier();
                 soldier2 = new Soldier();
@@ -198,6 +202,7 @@ public class GameManager implements ActionListener{
         	}
         	if(level == 2)
         	{
+        		coefficient = 2;
         		maxTime = 180;
         		soldier1 = new Soldier();
                 soldier2 = new Soldier();
@@ -207,19 +212,27 @@ public class GameManager implements ActionListener{
         	}
         	if(level == 3)
         	{
+        		coefficient = 3;
         		maxTime = 150;
                 soldier1 = new Soldier();
                 soldier2 = new Soldier();
+                wall1 = new Wall();
+                entityManager.addObject(wall1);
                 entityManager.addObject(soldier1);
                 entityManager.addObject(soldier2);
    
         	}
         	if(level == 4)
         	{
+        		coefficient = 4;
         		maxTime = 120;
                 soldier1 = new Soldier();
                 soldier2 = new Soldier();
                 soldier3 = new Soldier();
+                wall1 = new Wall();
+                wall2 = new Wall();
+                entityManager.addObject(wall1);
+                entityManager.addObject(wall2);
                 entityManager.addObject(soldier1);
                 entityManager.addObject(soldier2);
                 entityManager.addObject(soldier3);
@@ -227,10 +240,17 @@ public class GameManager implements ActionListener{
         	}
         	if(level == 5)
         	{
+        		coefficient = 5;
         		maxTime = 90;
                 soldier1 = new Soldier();
                 soldier2 = new Soldier();
                 soldier3 = new Soldier();
+                wall1 = new Wall();
+                wall2 = new Wall();
+                wall3 = new Wall();
+                entityManager.addObject(wall1);
+                entityManager.addObject(wall2);
+                entityManager.addObject(wall3);
                 entityManager.addObject(soldier1);
                 entityManager.addObject(soldier2);
                 entityManager.addObject(soldier3);
@@ -250,5 +270,29 @@ public class GameManager implements ActionListener{
 		public void setLevel(int level) {
 			this.level = level;
 		}
+		public int calculateScore()
+		{
+			int score = getRemainigTime() ;
+			score = (score * coefficient);
+			return score;
+			
+		}
+        public void deleteAllEnemies()
+        {
+        	for(int i =entityManager.size()-1;i > 1;i--)
+        	{
+        		entityManager.removeObjectByIndex(i);
+        	}
+        }
+        public void addWalls()
+        {
+        	wall4 = new Wall();
+        	entityManager.addObject(wall4);
+                	
+        }
+        public void lifePlus()
+        {
+        	hero.setLife(hero.getLife() + 1);
+        }
 		
 }
