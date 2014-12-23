@@ -10,6 +10,7 @@ public class Hero extends GameObject{
 	private int life;
 	private static Hero h;
 	private int heroType;
+	private int score;
 
 	
 	//methods
@@ -23,13 +24,15 @@ public class Hero extends GameObject{
 	    	  System.out.println("hata sprite yok");
 			}
 		speed = 2;
-		life = 2;
+		life = 1;
+		score = 0;
 		setWidht(100);
 		setHeight(100);
 		setPosX(450);
 		setPosY(950);
 	}
-    public void move(int velX, int velY, EdgeManager eManager) {
+
+	public void move(int velX, int velY, EdgeManager eManager) {
     	
     	Point newPoint = new Point(getPosX() + (speed * velX) + getWidht()/2,getPosY() + (speed * velY) +  getHeight()/2);
     	boolean canMove = eManager.isPositionValid(newPoint);
@@ -75,6 +78,12 @@ public class Hero extends GameObject{
 	public void setHeroType(int heroType)
 	{
 		this.heroType = heroType;
+	}
+    public int getScore() {
+		return score;
+	}
+	public void setScore(int score) {
+		this.score = score;
 	}
 
 }

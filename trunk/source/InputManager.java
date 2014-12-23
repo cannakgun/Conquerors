@@ -152,6 +152,16 @@ public class InputManager implements KeyListener, MouseListener{
 				gManager.setLevel(5);
 			}
 		}
+		if(e.getX() > 650 && e.getX() < 795 && e.getY() > 720 && e.getY() < 790)
+		{
+			if(GraphicEngine.getState() == GraphicEngine.State.LevelFinish)
+			{
+				gManager.reset();
+				gManager.setLevel(gManager.getLevel()+1);
+				GraphicEngine.setState(GraphicEngine.State.PlayGame);
+				
+			}
+		}
 		
 		
 	}

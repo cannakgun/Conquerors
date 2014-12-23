@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -59,7 +60,14 @@ public class Frame extends JFrame implements ActionListener{
 	}
 	
 	public void updateTime(String newTime)
-	{
+	{	
+		if(gManager.getRemainigTime() <= 10 && gManager.getRemainigTime() >= 0)
+		{
+	    	timeLabel.setForeground(Color.RED);
+		}
+		else
+			timeLabel.setForeground(Color.BLACK);
+
 		if(GraphicEngine.getState() == GraphicEngine.State.PlayGame)
 			timeLabel.setText("Remaining Time: " + newTime + "   ");
 		else
@@ -97,8 +105,9 @@ public class Frame extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == backButton)
 		{
-			if(GraphicEngine.getState() == GraphicEngine.State.PlayGame||GraphicEngine.getState() == GraphicEngine.State.GameOver)
+			if(GraphicEngine.getState() == GraphicEngine.State.PlayGame||GraphicEngine.getState() == GraphicEngine.State.GameOver ||GraphicEngine.getState() == GraphicEngine.State.LevelFinish)
 			{
+				gManager.setLevel(1);
 				gManager.reset();
 			}
 

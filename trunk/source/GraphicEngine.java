@@ -23,16 +23,18 @@ public class GraphicEngine extends JPanel{
     private InputManager iManager;
     private EdgeManager edgeManager;
     private ConqueredAreaDetector cAreaDetector;
-    public static enum State {PlayGame, MainMenu, ViewHelp, selectLevel, viewHighScore, Settings, ViewCredits, GameOver};
+    public static enum State {PlayGame, MainMenu, ViewHelp, selectLevel, viewHighScore, Settings, ViewCredits, GameOver, LevelFinish, GameFinish};
     private long deathTime;
     private static State state;
     private MainMenu mMenu;
     private GameOver gOver;
+    private LevelFinish lFinish;
+    private GameFinish gFinish;
     private ArrayList<Polygon> polygonList;
     private GameManager gManager;
    
 	//methods
-    public GraphicEngine(GameManager gManager, InputManager iManager, EntityManager eManager, MainMenu mMenu, ConqueredAreaDetector cAreaDetector, GameOver gOver, EdgeManager edManager)
+    public GraphicEngine(GameManager gManager, InputManager iManager, EntityManager eManager, MainMenu mMenu, ConqueredAreaDetector cAreaDetector, GameOver gOver, EdgeManager edManager, LevelFinish lFinish, GameFinish gFinish)
     {
     	deathTime = -1;    
 	    
@@ -96,6 +98,8 @@ public class GraphicEngine extends JPanel{
 		this.iManager = iManager;
 		this.mMenu = mMenu;
 		this.gOver = gOver;
+		this.lFinish = lFinish;
+		this.gFinish = gFinish;
 		edgeManager = edManager;
     	setPreferredSize(new Dimension(1000,1000));
 		addKeyListener(iManager);
@@ -186,6 +190,7 @@ public class GraphicEngine extends JPanel{
  		{
  			if(((Hero)(eManager.get(0))).getLife() < 1)
  			{
+ 				g.drawImage(backImage, 0, 0, getWidth(), getHeight(), this);
  				gOver.paint(g2d);
  			}
  				
@@ -210,6 +215,17 @@ public class GraphicEngine extends JPanel{
 
  			}
  								
+ 		}
+ 		else if(state == State.LevelFinish)
+ 		{
+
+				g.drawImage(backImage, 0, 0, getWidth(), getHeight(), this);
+				lFinish.paint(g2d);
+ 		}
+ 		else if(state == State.GameFinish)
+ 		{
+				g.drawImage(backImage, 0, 0, getWidth(), getHeight(), this);
+				gFinish.paint(g2d);
  		}
     }
     

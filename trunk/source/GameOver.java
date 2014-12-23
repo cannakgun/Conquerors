@@ -10,16 +10,15 @@ public class GameOver {
 	private Rectangle gameOver;
 	private Rectangle scoreRectangle;
 	private int score;
-    private boolean calculateScore;
 
 	
 	//methods
 	public GameOver(GameManager gManager)
 	{
 		this.gManager = gManager;
-		gameOver = new Rectangle(350, 270, 300, 100);
-		scoreRectangle = new Rectangle(350, 470, 300, 100);
-	    calculateScore = false;
+		gameOver = new Rectangle(340, 370, 310, 100);
+		scoreRectangle = new Rectangle(340, 470, 310, 100);
+		score = 0;
 
 	}
 	
@@ -28,26 +27,15 @@ public class GameOver {
 		g.setFont(new Font("arial", Font.BOLD, 50));
 		g.setColor(Color.BLACK);
 
-		g.drawString("Game Over", gameOver.x + 10, gameOver.y+70);
+		g.drawString("Game Over", gameOver.x + 20, gameOver.y+70);
 		
-		if(!calculateScore)
-			score = gManager.calculateScore();
 		g.setFont(new Font("arial", Font.BOLD, 25));
 		
-		g.drawString("Your Score:  " + score  , scoreRectangle.x + 40, scoreRectangle.y+60);
+		g.drawString("Your Score:  " + score  , scoreRectangle.x + 60, scoreRectangle.y+60);
 
 		g.draw(gameOver);
 		g.draw(scoreRectangle);
-		calculateScore = true;
 
-	}
-
-	public boolean getCalculateScore() {
-		return calculateScore;
-	}
-
-	public void setCalculateScore(boolean calculateScore) {
-		this.calculateScore = calculateScore;
 	}
 
 }
