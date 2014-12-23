@@ -48,4 +48,8 @@ public class Edge {
 	public void setDirection(int direction) {
 		this.direction = direction;
 	}
+	
+	public String toString(){
+		return "(" + start.getX() + "," + start.getY() + ")/(" + end.getX() + "," + end.getY() + ")(" + direction + ")";
+	}
 }

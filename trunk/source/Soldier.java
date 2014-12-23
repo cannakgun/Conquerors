@@ -1,3 +1,7 @@
+import java.awt.Polygon;
+import java.awt.Rectangle;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
@@ -43,40 +47,51 @@ public class Soldier extends GameObject{
 		else
 		{
 			//System.out.println(direction);
+			Rectangle border = new Rectangle(getPosX(),getPosY(),getWidht(),getHeight());
 			if(direction == 1){
-				setPosY(getPosY() - speed);
+				border.y = border.y - speed;
+				/*setPosY(getPosY() - speed);
 				if (getPosY() < 0){
 					setPosY(0);
 					walk = 0;
 					return;
-				}
+				}*/
 			}
 			else if(direction == 2){
-				setPosX(getPosX() + speed);
+				border.x = border.x + speed;
+				/*setPosX(getPosX() + speed);
 				if (getPosX() > 949){
 					setPosX(949);
 					walk = 0;
 					return;
-				}
+				}*/
 			}
 			else if(direction == 3){
-				setPosY(getPosY() + speed);
+				border.y = border.y + speed;
+				/*setPosY(getPosY() + speed);
 				if (getPosY() > 949){
 					setPosY(949);
 					walk = 0;
 					return;
-				}
+				}*/
 			}
 			else if(direction == 4){
-				setPosX(getPosX() - speed);
+				border.x = border.x - speed;
+				/*setPosX(getPosX() - speed);
 				if (getPosX() < 0){
 					setPosX(0);
 					walk = 0;
 					return;
-				}
+				}*/
 			}
-
 			walk--;
+			Polygon play = eManager.getPlayArea();
+			for (int i = 0; i < play.npoints; i++) {
+				if (border.intersectsLine(play.xpoints[i], play.ypoints[i], play.xpoints[(i + 1) % play.npoints], play.ypoints[(i + 1) % play.npoints]))
+					return;				
+			}
+			setPosX(border.x);
+			setPosY(border.y);
 			
 		}  	
 	}

@@ -3,6 +3,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -28,10 +29,12 @@ public class Frame extends JFrame implements ActionListener{
 		super("Conquerors");
 		menuState = false;
 	    menubar = new JMenuBar();
-	    backButton = new JButton("Main Menu");
+	    ImageIcon menuIcon = new ImageIcon("mainmenubutton.png");
+	    backButton = new JButton(menuIcon);
+	    backButton.setBorder(BorderFactory.createEmptyBorder());
 	    backButton.addActionListener(this);
 	    menubar.add(backButton);
-	    timeLabel = new JLabel("TEST");
+	    timeLabel = new JLabel();
 	    menubar.add(Box.createHorizontalGlue());
 	    menubar.add(timeLabel);
 	    menubar.setVisible(false);
@@ -57,7 +60,10 @@ public class Frame extends JFrame implements ActionListener{
 	
 	public void updateTime(String newTime)
 	{
-		timeLabel.setText("Remaining Time: " + newTime + "   ");
+		if(GraphicEngine.getState() == GraphicEngine.State.PlayGame)
+			timeLabel.setText("Remaining Time: " + newTime + "   ");
+		else
+			timeLabel.setText("");
 	}
 	
 	public JLabel getTimeLabel() {
@@ -93,7 +99,7 @@ public class Frame extends JFrame implements ActionListener{
 		{
 			if(GraphicEngine.getState() == GraphicEngine.State.PlayGame||GraphicEngine.getState() == GraphicEngine.State.GameOver)
 			{
-				gManager.reset();				
+				gManager.reset();
 			}
 
 			GraphicEngine.setState(GraphicEngine.State.MainMenu);

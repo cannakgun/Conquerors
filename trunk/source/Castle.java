@@ -9,7 +9,7 @@ public class Castle extends GameObject{
 	public Castle()
 	{
 		try {
-            setSprite(ImageIO.read(new File("castle.jpg")));
+            setSprite(ImageIO.read(new File("castle.png")));
             
          } catch (IOException e) 
          {

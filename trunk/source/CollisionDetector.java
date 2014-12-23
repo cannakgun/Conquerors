@@ -32,7 +32,6 @@ public class CollisionDetector {
 			if(r1.intersects(r2))
 			{
 				check = true;
-				((Hero)(eManager.get(0))).decreaseLife();
 				break;
 			}
 			

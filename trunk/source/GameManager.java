@@ -19,12 +19,17 @@ public class GameManager implements ActionListener{
     private Wall wall2;
     private Wall wall3;
     private Wall wall4;
+    private Cannon cannon;
+    private Cannon reverseCannon;
+    private Cannonball cannonball;
+    private Cannonball cannonball2;
+    private Mine mine;
     private InputManager iManager;
     private GraphicEngine gEngine;
     private EntityManager entityManager;
     private EdgeManager edgeManager;
     private ConqueredAreaDetector cAreaDetector;
-    private BonusManager bManager;
+  //  private BonusManager bManager;
     private CollisionDetector collisionDetector;
     private MainMenu mMenu;
     private GameOver gOver;
@@ -34,6 +39,7 @@ public class GameManager implements ActionListener{
     private int remainigTime;
     private static boolean setRemainigTimeBool;
     private static boolean setRemainingTimeMinus;
+    private boolean cannonSprite;
 
     
     //methods
@@ -41,20 +47,21 @@ public class GameManager implements ActionListener{
     {
         mMenu = new MainMenu();
         gOver = new GameOver(this);
-        level = 5;
+        level = 1;
         startTime = -1;
         remainigTime = -1;
         lastMove = -1;
         setRemainigTimeBool = false;
         setRemainingTimeMinus = false;
+        cannonSprite = true;
         edgeManager = new EdgeManager();
         hero = Hero.getHero();
         castle = new Castle();
         cAreaDetector = new ConqueredAreaDetector();
         iManager = new InputManager(this);
-        entityManager = new EntityManager();
-        bManager = new BonusManager(this);
-        gEngine = new GraphicEngine(this, iManager, entityManager, mMenu,cAreaDetector,gOver);
+        entityManager = new EntityManager(this);
+   //     bManager = new BonusManager(this);
+        gEngine = new GraphicEngine(this, iManager, entityManager, mMenu,cAreaDetector,gOver,edgeManager);
         entityManager.addObject(hero);
         entityManager.addObject(castle);
         collisionDetector = new CollisionDetector(entityManager);
@@ -70,7 +77,7 @@ public class GameManager implements ActionListener{
                         initializeLevel(level);                        
                 }
                 
-                if(hero.getPosX() < 0-hero.getWidht()/2)
+                /*if(hero.getPosX() < 0-hero.getWidht()/2)
                 {
                          hero.setPosX(0-hero.getWidht()/2);
                          iManager.setVelX(0);
@@ -89,7 +96,7 @@ public class GameManager implements ActionListener{
                 {
                         hero.setPosY(999-(hero.getWidht()/2));
                         iManager.setVelY(0);
-                }
+                }*/
 
 
                 if(GraphicEngine.getState() == GraphicEngine.State.PlayGame)
@@ -99,20 +106,36 @@ public class GameManager implements ActionListener{
                 	{
                         soldier1.move(edgeManager);
                         soldier2.move(edgeManager);
-                        if(level > 3 )
+                        if(level == 3 )
+                        {
+                        	cannonball.move(edgeManager);
+                        
+                        }
+                        if(level == 4)
+                        {
+                        	cannonball.move(edgeManager);
                         	soldier3.move(edgeManager);
+                        }
+                        if(level == 5)
+                        {
+                        	cannonball.move(edgeManager);
+                        	soldier3.move(edgeManager);
+                        	cannonball2.backMove(edgeManager);
+                        }
+
                         lastMove = System.currentTimeMillis();
                 	}
+                    Point heroPos = new Point(hero.getPosX() + (hero.getHeight()/2),hero.getPosY() + (hero.getHeight()/2));              
+                    cAreaDetector.process(edgeManager.isOnEdge(heroPos), heroPos, edgeManager, entityManager, gEngine);
+                    if( collisionDetector.checkCollision() && !(edgeManager.isOnEdge(heroPos)))
+                    {
+                    	hero.decreaseLife();
+                    	gEngine.onDeath();
+                    }
                 }
 
-                Point heroPos = new Point(hero.getPosX() + (hero.getHeight()/2),hero.getPosY() + (hero.getHeight()/2));              
-                cAreaDetector.process(edgeManager.isOnEdge(heroPos), heroPos, edgeManager, entityManager, gEngine);
                
                 gEngine.repaint();
-                if(GraphicEngine.getState() != GraphicEngine.State.GameOver && collisionDetector.checkCollision() && !(edgeManager.isOnEdge(heroPos)))
-                {
-                	gEngine.onDeath();
-                }
                                
                 
                 //check hero life to continue PlayGame state or go to GameOver state!!!! 
@@ -184,8 +207,8 @@ public class GameManager implements ActionListener{
         	
         	gOver.setCalculateScore(false);
         	startTime = -1;
-			getHero().setPosX(500 - (getHero().getWidht()/2));
-			getHero().setPosY(999 - (getHero().getWidht()/2));
+			getHero().setPosX(450);
+			getHero().setPosY(950);
 			getHero().setLife(1);
         }
         public void initializeLevel(int level)
@@ -217,6 +240,10 @@ public class GameManager implements ActionListener{
                 soldier1 = new Soldier();
                 soldier2 = new Soldier();
                 wall1 = new Wall();
+                cannonball = new Cannonball();
+                cannon = new Cannon(cannonSprite);
+                entityManager.addObject(cannon);
+                entityManager.addObject(cannonball);
                 entityManager.addObject(wall1);
                 entityManager.addObject(soldier1);
                 entityManager.addObject(soldier2);
@@ -231,6 +258,10 @@ public class GameManager implements ActionListener{
                 soldier3 = new Soldier();
                 wall1 = new Wall();
                 wall2 = new Wall();
+                cannon = new Cannon(cannonSprite);
+                cannonball = new Cannonball();
+                entityManager.addObject(cannon);
+                entityManager.addObject(cannonball);
                 entityManager.addObject(wall1);
                 entityManager.addObject(wall2);
                 entityManager.addObject(soldier1);
@@ -248,6 +279,18 @@ public class GameManager implements ActionListener{
                 wall1 = new Wall();
                 wall2 = new Wall();
                 wall3 = new Wall();
+                mine = new Mine();
+                cannon = new Cannon(cannonSprite);
+                reverseCannon = new Cannon(!cannonSprite);
+                cannonball = new Cannonball();
+                cannonball2 = new Cannonball();
+                cannonball2.setPosX(900);
+                cannonball2.setPosY(150);
+                entityManager.addObject(cannon);
+                entityManager.addObject(reverseCannon);
+                entityManager.addObject(mine);
+                entityManager.addObject(cannonball2);
+                entityManager.addObject(cannonball);
                 entityManager.addObject(wall1);
                 entityManager.addObject(wall2);
                 entityManager.addObject(wall3);
@@ -273,7 +316,10 @@ public class GameManager implements ActionListener{
 		public int calculateScore()
 		{
 			int score = getRemainigTime() ;
-			score = (score * coefficient);
+			if(score <= 0)
+				score = 0;
+			else
+				score = (score * coefficient);
 			return score;
 			
 		}
@@ -284,6 +330,11 @@ public class GameManager implements ActionListener{
         		entityManager.removeObjectByIndex(i);
         	}
         }
+        
+        public void resetTime(){
+        	startTime = System.currentTimeMillis();
+        }
+        
         public void addWalls()
         {
         	wall4 = new Wall();
@@ -293,6 +344,16 @@ public class GameManager implements ActionListener{
         public void lifePlus()
         {
         	hero.setLife(hero.getLife() + 1);
+        }
+        
+        public void onObjDestroy(GameObject obj){
+        	if (obj instanceof Castle)
+        	{
+        		hero.setLife(0);
+        		GraphicEngine.setState(GraphicEngine.State.GameOver);
+        	}
+        		
+        		
         }
 		
 }

@@ -39,5 +39,9 @@ public class Point {
 	public boolean equals(Point p){
 		return getX() == p.getX() && getY() == p.getY();
 	}
+	
+	public double getDistance(Point p){
+		return Math.sqrt(Math.pow(x-p.x, 2) + Math.pow(y-p.y, 2));
+	}
 
 }

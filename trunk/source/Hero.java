@@ -26,8 +26,8 @@ public class Hero extends GameObject{
 		life = 2;
 		setWidht(100);
 		setHeight(100);
-		setPosX(500 - (getWidht()/2));
-		setPosY(999 - (getWidht()/2));
+		setPosX(450);
+		setPosY(950);
 	}
     public void move(int velX, int velY, EdgeManager eManager) {
     	
