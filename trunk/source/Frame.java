@@ -68,7 +68,7 @@ public class Frame extends JFrame implements ActionListener{
 		else
 			timeLabel.setForeground(Color.BLACK);
 
-		if(GraphicEngine.getState() == GraphicEngine.State.PlayGame)
+		if(GraphicEngine.getState() == GraphicEngine.State.PlayGame ||GraphicEngine.getState() == GraphicEngine.State.GameOver)
 			timeLabel.setText("Remaining Time: " + newTime + "   ");
 		else
 			timeLabel.setText("");
@@ -107,6 +107,7 @@ public class Frame extends JFrame implements ActionListener{
 		{
 			if(GraphicEngine.getState() == GraphicEngine.State.PlayGame||GraphicEngine.getState() == GraphicEngine.State.GameOver ||GraphicEngine.getState() == GraphicEngine.State.LevelFinish)
 			{
+	        	gManager.getHero().setScore(0);
 				gManager.setLevel(1);
 				gManager.reset();
 			}

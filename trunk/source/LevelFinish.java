@@ -38,10 +38,8 @@ public class LevelFinish {
 			
 			g.drawString("Your Score:  " + score  , scoreRectangle.x + 50, scoreRectangle.y+60);
 			
-			g.drawString("Next Level", play.x + 10, play.y + 40);
 			g.draw(levelFinish);
 			g.draw(scoreRectangle);
-			g.draw(play);
 			calculateScore = true;
 
 		}

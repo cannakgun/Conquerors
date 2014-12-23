@@ -1,6 +1,7 @@
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.Timer;
 
@@ -42,6 +43,7 @@ public class GameManager implements ActionListener{
     private static boolean setRemainigTimeBool;
     private static boolean setRemainingTimeMinus;
     private boolean cannonSprite;
+    private HighScoreFile highScore;
 
     
     //methods
@@ -51,6 +53,7 @@ public class GameManager implements ActionListener{
         gOver = new GameOver(this);
         lFinish = new LevelFinish(this);
         gFinish = new GameFinish(this);
+        highScore  = new HighScoreFile();
         level = 1;
         startTime = -1;
         remainigTime = -1;
@@ -184,8 +187,7 @@ public class GameManager implements ActionListener{
         	{
         		edgeManager.getEdgeList().remove(edgeManager.getEdgeList().get(i));
         	}
-        	
-        	getHero().setScore(0);
+        
         	lFinish.setCalculateScore(false);
         	startTime = -1;
 			getHero().setPosX(450);
@@ -306,7 +308,7 @@ public class GameManager implements ActionListener{
 				score = 0;
 			else
 				score = (score * coefficient);
-			score = score + + hero.getScore();
+			score = score + hero.getScore();
 			hero.setScore(score + hero.getScore());
 			
 			return score;
@@ -341,6 +343,7 @@ public class GameManager implements ActionListener{
 
         		if(level == 5)
         		{
+        			highScore.changeScore(calculateScore()*2);
         			GraphicEngine.setState(GraphicEngine.State.GameFinish);
         		}
         		else
@@ -349,5 +352,11 @@ public class GameManager implements ActionListener{
         		
         		
         }
+        public ArrayList<Integer> getHighScoreList()
+      {
+      	
+			return highScore.getHighScores();
+      	
+      }
 		
 }

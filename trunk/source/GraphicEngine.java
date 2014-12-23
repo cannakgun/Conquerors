@@ -14,10 +14,13 @@ public class GraphicEngine extends JPanel{
 	private Font font;;
     private BufferedImage backImage;
     private BufferedImage mainBack;
+    private BufferedImage play;
     private BufferedImage line;
     private BufferedImage creditsBack;
+    private BufferedImage helpBack;
     private BufferedImage scoresBack;
     private BufferedImage settingsBack;
+    private BufferedImage back2;
     private BufferedImage levelBack;
     private EntityManager eManager;
     private InputManager iManager;
@@ -87,7 +90,27 @@ public class GraphicEngine extends JPanel{
 			{
 	    	  System.out.println("level is missing");
 			}
-		
+		try {
+			back2 = ImageIO.read(new File("back2.png"));
+	    	   
+	        } catch (IOException e) 
+			{
+	    	  System.out.println("back2 is missing");
+			}
+		try {
+			play = ImageIO.read(new File("play.png"));
+	    	   
+	        } catch (IOException e) 
+			{
+	    	  System.out.println("play is missing");
+			}
+		try {
+			helpBack = ImageIO.read(new File("help.png"));
+	    	   
+	        } catch (IOException e) 
+			{
+	    	  System.out.println("help is missing");
+			}
 		
 		
 
@@ -145,7 +168,7 @@ public class GraphicEngine extends JPanel{
 	    	g.setFont(font);
 	    	g.setColor(Color.BLACK);
 
-	    	if(gManager.getRemainigTime() >= 0)
+	    	if(gManager.getRemainigTime() > 0)
 	    	{
 	    		Frame.getFrame().updateTime(gManager.getRemaingTimeString());
 	    	}
@@ -153,6 +176,8 @@ public class GraphicEngine extends JPanel{
 	    	
 	    	if(gManager.getRemainigTime() == 0)
 	    	{
+	    		Frame.getFrame().updateTime("0: 00");
+	    		gManager.getHero().decreaseLife();
 	    		onDeath();
 	    	}
  		}
@@ -167,6 +192,12 @@ public class GraphicEngine extends JPanel{
  			Frame.getFrame().addMenu();
  			Frame.getFrame().updateTime(gManager.getRemaingTimeString());
  			g.drawImage(scoresBack, 0, 0, getWidth(), getHeight(), this);
+ 			g.setFont(new Font("arial", Font.BOLD, 75));
+            g.drawString(Integer.toString(gManager.getHighScoreList().get(0)), 500, 280);
+            g.drawString(Integer.toString(gManager.getHighScoreList().get(1)), 500, 385);
+            g.drawString(Integer.toString(gManager.getHighScoreList().get(2)), 500, 500);
+            g.drawString(Integer.toString(gManager.getHighScoreList().get(3)), 500, 620);
+            g.drawString(Integer.toString(gManager.getHighScoreList().get(4)), 500, 740);
  		}
  		else if(state == State.Settings)
  		{
@@ -180,6 +211,12 @@ public class GraphicEngine extends JPanel{
  			Frame.getFrame().updateTime(gManager.getRemaingTimeString());
  			g.drawImage(levelBack, 0, 0, getWidth(), getHeight(), this);
  		}
+ 		else if(state == State.ViewHelp)
+ 		{
+ 			Frame.getFrame().addMenu();
+ 			Frame.getFrame().updateTime(gManager.getRemaingTimeString());
+ 			g.drawImage(helpBack, 0, 0, getWidth(), getHeight(), this);
+ 		}
  		else if(state == State.MainMenu)
  		{
  			Frame.getFrame().removeMenu();
@@ -190,12 +227,13 @@ public class GraphicEngine extends JPanel{
  		{
  			if(((Hero)(eManager.get(0))).getLife() < 1)
  			{
- 				g.drawImage(backImage, 0, 0, getWidth(), getHeight(), this);
+ 				g.drawImage(back2, 0, 0, getWidth(), getHeight(), this);
  				gOver.paint(g2d);
  			}
  				
  			else
  			{
+ 				System.out.println("bbb");
  				gManager.getHero().setPosX(450);
  				gManager.getHero().setPosY(950);
  				gManager.resetTime();
@@ -220,6 +258,7 @@ public class GraphicEngine extends JPanel{
  		{
 
 				g.drawImage(backImage, 0, 0, getWidth(), getHeight(), this);
+				g.drawImage(play, 650, 720, 145, 70, this);
 				lFinish.paint(g2d);
  		}
  		else if(state == State.GameFinish)
